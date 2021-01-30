@@ -1,7 +1,6 @@
 
-# Tail-GNN
-we provide the implementaion of Tail-GNN model:
-Tail-GNN: Tail-Node Graph Neural Networks
+# Tail-GNN: Tail-Node Graph Neural Networks 
+We provide the implementaion of Tail-GNN model.
 
 The repository is organised as follows:
 - dataset/: contains 3 benchmark datasets: squirrel, actor, cs-citation. Extract dataset before use
