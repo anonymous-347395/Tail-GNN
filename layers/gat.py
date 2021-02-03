@@ -5,10 +5,6 @@ import torch.nn.functional as F
 
 
 class GraphAttentionLayer(nn.Module):
-    """
-    Simple GAT layer, similar to https://arxiv.org/abs/1710.10903
-    """
-
     def __init__(self, in_features, out_features, dropout, alpha, concat=True):
         super(GraphAttentionLayer, self).__init__()
         self.dropout = dropout
@@ -79,10 +75,6 @@ class SpecialSpmm(nn.Module):
 
     
 class SpGraphAttentionLayer(nn.Module):
-    """
-    Sparse version GAT layer, similar to https://arxiv.org/abs/1710.10903
-    """
-
     def __init__(self, in_features, out_features, dropout, alpha, concat=True):
         super(SpGraphAttentionLayer, self).__init__()
         self.in_features = in_features
