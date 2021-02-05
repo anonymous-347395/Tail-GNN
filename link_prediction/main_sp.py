@@ -23,7 +23,6 @@ from sklearn.metrics import average_precision_score, ndcg_score
 #Get parse argument
 parser = argparse.ArgumentParser()
 
-#dataset: email, wiki, flickr, chameleon, cs-citation, cora, citeseer, pubmed
 parser.add_argument("--dataset", type=str, default='cs-citation', help='dataset')
 parser.add_argument("--hidden", type=int, default=32, help='hidden layer dimension')
 parser.add_argument("--g_sigma", type=float, default=0.1, help='G deviation')
@@ -213,20 +212,18 @@ idx_test = torch.LongTensor(idx[2])
 train_base_nodes = gt[idx_train, 0]
 train_pos_nodes = gt[idx_train, 1]
 
-'''
 neg_nodes = []
 for node in train_base_nodes:
     neighbor = np.where(new_adj[node] == 0)
     neg = np.random.choice(neighbor[0], 1) 
     neg_nodes.append(neg)   
 train_neg_nodes = np.asarray(neg_nodes).reshape(-1)
-'''
+
 
 # Validate Sampling
 val_base_nodes = gt[idx_val, 0]
 val_pos_nodes = gt[idx_val, 1]
 
-'''
 val_rank_nodes = []
 for i in range(val_base_nodes.shape[0]):
     neighbor = np.where(new_adj[val_base_nodes[i]] == 0) #.nonzero(as_tuple=False)
@@ -234,13 +231,12 @@ for i in range(val_base_nodes.shape[0]):
     nodes = np.insert(neg, 0, val_pos_nodes[i])
     val_rank_nodes.append(nodes)   
 val_rank_nodes = np.transpose(np.asarray(val_rank_nodes))
-'''
+
 
 # Testing Sampling
 test_base_nodes = gt[idx_test, 0]
 test_pos_nodes = gt[idx_test, 1]
 
-'''
 rank_nodes = []
 for i in range(test_base_nodes.shape[0]):
     neighbor = np.where(new_adj[test_base_nodes[i]] == 0) #.nonzero(as_tuple=False)
@@ -248,12 +244,6 @@ for i in range(test_base_nodes.shape[0]):
     nodes = np.insert(neg, 0, test_pos_nodes[i])
     rank_nodes.append(nodes)   
 rank_nodes = np.transpose(np.asarray(rank_nodes))
-'''
-
-with open('../dataset/' + dataset + '/sp_nodes.npy', 'rb') as f:
-    train_neg_nodes = np.load(f)
-    val_rank_nodes = np.load(f)
-    rank_nodes = np.load(f)
 
 
 adj = data_process.normalize(adj)
@@ -283,9 +273,7 @@ print("Data Processing done!")
 r_ver = 1
 if features.shape[1] > 1000:
     r_ver = 2
-nclass = 16 #labels.max().item() + 1
-
-
+nclass = 16
 
 
 # Model and optimizer
@@ -363,8 +351,8 @@ for epoch in range(args.epochs):
             'MAP = {:.4f} '.format(map_val) + \
             'NDCG = {:.4f} '.format(ndcg_val)
             #'time: {:.4f}s'.format(time.time() - t))
-    
-    print(log) #if debug else log_file.write(log + '\n')
+    print(log) 
+
     #save best model 
     if map_val >= best_map:  
         map_early_stop = map_val
@@ -386,15 +374,10 @@ for epoch in range(args.epochs):
             break
 
 
-#print("Training Finished!")
-log_file.write("Training Finished!" + '\n')
-#print("Total time elapsed: {:.4f}s".format(time.time() - t_total))
-log_file.write("Total time elapsed: {:.4f}s".format(time.time() - t_total) + '\n')
+print("Training Finished!")
+print("Total time elapsed: {:.4f}s".format(time.time() - t_total))
 
 # Testing
-#print('Loading best model')
+print('Testing ...')
 embed_model = torch.load(os.path.join(save_path,'model.pt'))
-
 test()
-#print('seed:', torch.initial_seed())
-

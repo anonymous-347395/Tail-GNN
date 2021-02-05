@@ -17,7 +17,6 @@ from models import LRGCN, LRGCN_v1
 #Get parse argument
 parser = argparse.ArgumentParser()
 
-#dataset: email, wiki, flickr, chameleon, cs-citation, cora, citeseer, pubmed
 parser.add_argument("--dataset", type=str, default='actor', help='dataset')
 parser.add_argument("--hidden", type=int, default=32, help='hidden layer dimension')
 parser.add_argument("--w_d", type=float, default=0.1, help='Weight D loss')
