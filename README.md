@@ -3,11 +3,11 @@
 We provide the implementaion of Tail-GNN model.
 
 The repository is organised as follows:
-- dataset/: contains 3 benchmark datasets: squirrel, actor, cs-citation. Extract dataset before use
-- models/: contains our models 
-- layers/: contains component layers for models  
-- utils/: contains functions for data-processing, metrics
-- link_prediction/: sub repository to run the link prediction task
+- dataset/: contains 3 benchmark datasets: squirrel, actor, cs-citation. Note: The larger cs-citation dataset is zipped, and must be unzipped first. Make sure the input files are all under dataset/cs-citation/ after unzipping. As all datasets will be processed on the fly, cs-citation may take 5+ mins to process before training will start. 
+- models/: contains our model. 
+- layers/: contains component layers for our model.  
+- utils/: contains functions for data-processing, evaluation metrics, etc.
+- link_prediction/: sub-directory to run the link prediction task.
 
 
 ## Requirements
@@ -19,7 +19,7 @@ To install required packages
 ### Tail node classification:
 - python3 main.py --dataset=squirrel
 
-For large dataset as cs-citation, may need to use the sparse version:
+For larger datasets such as as cs-citation, please use the sparse version:
 - python3 main_sp.py --dataset=cs-citation
 
 
@@ -27,5 +27,5 @@ For large dataset as cs-citation, may need to use the sparse version:
 - cd link_prediction/
 - python3 main.py --dataset=squirrel 
 
-For large dataset:
+For larger datasets:
 - python3 main_sp.py --dataset=cs-citation
