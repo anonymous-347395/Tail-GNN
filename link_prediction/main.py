@@ -152,10 +152,6 @@ rank_nodes = np.transpose(np.asarray(rank_nodes))
 
 print("Data Processing done!")
 r_ver = 2
-'''
-if features.shape[1] > 900:
-    r_ver = 2
-'''
 
 
 
@@ -327,8 +323,7 @@ def test():
 
     log =   "MAP={:.4f} ".format(MAP) + \
             "NDCG={:.4f} ".format(NDCG) 
-            #"MRR={:.4f} ".format(MRR) + \
-            #"H1 ={:.4f}".format(H1)
+           
     print(log) 
 
 
@@ -351,8 +346,6 @@ for epoch in range(args.epochs):
             'loss_all: {:.4f} '.format(Loss[0].item()) + \
             'MAP = {:.4f} '.format(map_val) + \
             'NDCG = {:.4f} '.format(ndcg_val)
-            #'MRR = {:.4f} '.format(mrr_val) + \
-            #'H1 = {:.4f} '.format(h1_val)
             #'time: {:.4f}s'.format(time.time() - t)
     
     print(log) 

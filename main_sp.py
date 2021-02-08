@@ -3,7 +3,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 #from torch.autograd import Variable
-#from torch.utils.tensorboard import SummaryWriter
 
 import numpy as np
 import scipy as sp
@@ -33,7 +32,7 @@ parser.add_argument("--dropout", type=float, default=0.5, help='dropout')
 parser.add_argument("--seed", type=int, default=0, help='Random seed')
 parser.add_argument("--epochs", type=int, default=1000, help='Epochs')
 parser.add_argument("--patience", type=int, default=200, help='Patience')
-parser.add_argument("--id", type=int, default=1, help='gpu ids')
+parser.add_argument("--id", type=int, default=0, help='gpu ids')
 parser.add_argument("--ablation", type=int, default=0, help='ablation mode')
 
 args = parser.parse_args()
@@ -75,7 +74,6 @@ def train_disc(epoch):
     prob_t = disc(embed_t)
 
     # loss
-    #L_cls = F.nll_loss(F.softmax(embed_h[idx_train], dim=1), labels[idx_train]) + F.nll_loss(F.softmax(embed_t[idx_train], dim=1), labels[idx_train])
     errorD = criterion(prob_h[idx_train], h_labels)
     errorG = criterion(prob_t[idx_train], t_labels)
     L_d = (errorD + errorG)/2 
@@ -114,14 +112,10 @@ def train_embed(epoch):
         errorD = criterion(prob_h[idx_train], h_labels)
         errorG = criterion(prob_t[idx_train], t_labels)
         L_d = errorG
-    #L_d = (errorD + errorG)/2
-    #L_g = criterion(prob_t[idx_train], h_labels)
-    
-
+   
     norm = torch.mean(norm1[idx_train]) + torch.mean(norm2[idx_train])
 
     L_all = L_cls - (args.w_d * L_d) + args.lambda_m * norm
-    #L_all = L_cls + (lambda_d * L_g) + lambda_m * norm
 
     L_all.backward()
     optimizer.step()
@@ -253,7 +247,6 @@ if cuda:
 h_labels = torch.full((len(idx_train), 1), 1.0, device=device) 
 t_labels = torch.full((len(idx_train), 1), 0.0, device=device) 
 
-#writer.add_graph(embed_model, (features, adj, tail_adj))
 
 best_acc = 0.0
 best_loss = 10000.0

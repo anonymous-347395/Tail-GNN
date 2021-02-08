@@ -25,7 +25,7 @@ parser.add_argument("--arch", type=int, default=1, help='1: gcn, 2: gat, 3: grap
 
 parser.add_argument("--w_decay", type=float, default=0.0001, help='D hyperparam')
 parser.add_argument("--dropout", type=float, default=0.5, help='dropout')
-parser.add_argument("--seed", type=int, default=0, help='Random seed')
+parser.add_argument("--seed", type=int, default=45, help='Random seed')
 parser.add_argument("--epochs", type=int, default=1000, help='Epochs')
 parser.add_argument("--patience", type=int, default=300, help='Patience')
 parser.add_argument("--id", type=int, default=0, help='gpu ids')

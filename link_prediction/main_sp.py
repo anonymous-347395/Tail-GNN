@@ -35,7 +35,7 @@ parser.add_argument("--dropout", type=float, default=0.5, help='dropout')
 parser.add_argument("--seed", type=int, default=0, help='Random seed')
 parser.add_argument("--epochs", type=int, default=1000, help='Epochs')
 parser.add_argument("--patience", type=int, default=200, help='Patience')
-parser.add_argument("--id", type=int, default=1, help='gpu ids')
+parser.add_argument("--id", type=int, default=0, help='gpu ids')
 parser.add_argument("--ablation", type=int, default=0, help='ablation mode')
 
 args = parser.parse_args()
@@ -125,12 +125,9 @@ def train_embed(epoch):
         errorD = criterion(prob_h[idx_train], h_labels)
         errorG = criterion(prob_t[idx_train], t_labels)
         L_d = errorG
-    #L_d = (errorD + errorG)/2
-    #L_g = criterion(prob_t[idx_train], h_labels)
-    
+  
     norm = torch.mean(norm1[idx_train]) + torch.mean(norm2[idx_train])
     L_all = loss_link - (args.w_d * L_d) + args.lambda_m * norm
-    #L_all = L_cls + (lambda_d * L_g) + lambda_m * norm
 
     L_all.backward()
     optimizer.step()
